@@ -1,17 +1,51 @@
 <%- include("../layout", { body: `
-  <h3>${user.id ? "Editar" : "Novo"} Usuário</h3>
-  <form method='post' action='${action}'>
-    <div class='mb-3'><label>Nome</label><input name='name' class='form-control' value='${user.name || ""}' required></div>
-    <div class='mb-3'><label>Email</label><input type='email' name='email' class='form-control' value='${user.email || ""}' required></div>
-    <div class='mb-3'><label>Senha ${user.id ? "(deixe em branco para manter)" : ""}</label><input type='password' name='password' class='form-control' ${user.id ? "" : "required"}></div>
-    <div class='mb-3'>
-      <label>Perfil</label>
-      <select name='role' class='form-select'>
-        <option value='user' ${user.role==="user"?"selected":""}>user</option>
-        <option value='admin' ${user.role==="admin"?"selected":""}>admin</option>
-      </select>
+  <div class='d-flex justify-content-between align-items-center'>
+    <h3 class='mb-0'>
+      <i class='bi bi-shield-lock me-2'></i>${user.id ? "Editar" : "Novo"} Usuário
+    </h3>
+    <a class='btn btn-outline-secondary' href='/users'>
+      <i class='bi bi-arrow-left me-1'></i>Voltar
+    </a>
+  </div>
+
+  <div class='card shadow-sm rounded-4 mt-3'>
+    <div class='card-body'>
+      <form method='post' action='${action}' class='row g-3'>
+        <div class='col-md-6'>
+          <div class='form-floating'>
+            <input name='name' class='form-control' value='${user.name || ""}' required>
+            <label><i class='bi bi-person me-1'></i>Nome</label>
+          </div>
+        </div>
+        <div class='col-md-6'>
+          <div class='form-floating'>
+            <input type='email' name='email' class='form-control' value='${user.email || ""}' required>
+            <label><i class='bi bi-envelope me-1'></i>Email</label>
+          </div>
+        </div>
+
+        <div class='col-md-6'>
+          <div class='form-floating'>
+            <input type='password' name='password' class='form-control' ${user.id ? "" : "required"} placeholder='••••••••'>
+            <label><i class='bi bi-key me-1'></i>Senha ${user.id ? "(deixe em branco para manter)" : ""}</label>
+          </div>
+        </div>
+
+        <div class='col-md-6'>
+          <div class='form-floating'>
+            <select name='role' class='form-select'>
+              <option value='user' ${user.role==="user"?"selected":""}>user</option>
+              <option value='admin' ${user.role==="admin"?"selected":""}>admin</option>
+            </select>
+            <label><i class='bi bi-person-gear me-1'></i>Perfil</label>
+          </div>
+        </div>
+
+        <div class='col-12 d-flex gap-2 justify-content-end'>
+          <a class='btn btn-light' href='/users'><i class='bi bi-x-lg me-1'></i>Cancelar</a>
+          <button class='btn btn-primary'><i class='bi bi-check2-circle me-1'></i>Salvar</button>
+        </div>
+      </form>
     </div>
-    <button class='btn btn-success'>Salvar</button>
-    <a class='btn btn-secondary' href='/users'>Voltar</a>
-  </form>
+  </div>
 ` }) %>

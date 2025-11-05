@@ -1,11 +1,48 @@
 <%- include("../layout", { body: `
-  <h3>OS #${order.id}</h3>
-  <ul class='list-group'>
-    <li class='list-group-item'><b>Descrição:</b> ${order.description}</li>
-    <li class='list-group-item'><b>Status:</b> ${order.status}</li>
-    <li class='list-group-item'><b>Custo:</b> R$ ${order.cost}</li>
-    <li class='list-group-item'><b>Veículo:</b> ${order.Vehicle ? order.Vehicle.plate + " - " + order.Vehicle.model : "-"}</li>
-    <li class='list-group-item'><b>Cliente:</b> ${order.Vehicle && order.Vehicle.Client ? order.Vehicle.Client.name : "-"}</li>
-  </ul>
-  <a class='btn btn-secondary mt-3' href='/orders'>Voltar</a>
+  <div class='d-flex justify-content-between align-items-center'>
+    <h3 class='mb-0'><i class='bi bi-receipt me-2'></i>OS #${order.id}</h3>
+    <div class='d-flex gap-2'>
+      <a class='btn btn-outline-secondary' href='/orders'><i class='bi bi-arrow-left me-1'></i>Voltar</a>
+      <a class='btn btn-outline-warning' href='/orders/${order.id}/edit'><i class='bi bi-pencil-square me-1'></i>Editar</a>
+    </div>
+  </div>
+
+  <div class='card shadow-sm rounded-4 mt-3'>
+    <div class='card-body'>
+      <div class='row g-3'>
+        <div class='col-12'>
+          <div class='form-floating'>
+            <textarea class='form-control' style='height: 110px' readonly>${order.description}</textarea>
+            <label><i class='bi bi-file-text me-1'></i>Descrição</label>
+          </div>
+        </div>
+        <div class='col-md-4'>
+          <div class='form-floating'>
+            <input class='form-control' value='${
+              { aberta:"aberta", em_andamento:"em andamento", concluida:"concluída" }[order.status] || order.status
+            }' readonly>
+            <label><i class='bi bi-flag me-1'></i>Status</label>
+          </div>
+        </div>
+        <div class='col-md-3'>
+          <div class='form-floating'>
+            <input class='form-control' value='R$ ${order.cost}' readonly>
+            <label><i class='bi bi-cash-coin me-1'></i>Custo</label>
+          </div>
+        </div>
+        <div class='col-md-5'>
+          <div class='form-floating'>
+            <input class='form-control' value='${order.Vehicle ? order.Vehicle.plate + " - " + order.Vehicle.model : "-"}' readonly>
+            <label><i class='bi bi-car-front me-1'></i>Veículo</label>
+          </div>
+        </div>
+        <div class='col-md-5'>
+          <div class='form-floating'>
+            <input class='form-control' value='${order.Vehicle && order.Vehicle.Client ? order.Vehicle.Client.name : "-"}' readonly>
+            <label><i class='bi bi-person me-1'></i>Cliente</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 ` }) %>

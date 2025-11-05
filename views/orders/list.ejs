@@ -1,6 +1,6 @@
 <%- include("../layout", { body: `
   <div class='d-flex justify-content-between align-items-center'>
-    <h3>Ordens de Serviço</h3>
+    <h3 class='mb-0'><i class='bi bi-receipt me-2'></i>Ordens de Serviço</h3>
     <div class='d-flex gap-2'>
       <form class='d-flex' method='get' action='/orders'>
         <input class='form-control form-control-sm' name='q' placeholder='Buscar descrição'>
@@ -9,31 +9,61 @@
       <a class='btn btn-primary' href='/orders/new'>Nova</a>
     </div>
   </div>
-  <table class='table mt-3'>
-    <thead><tr><th>ID</th><th>Descrição</th><th>Status</th><th>Custo</th><th>Veículo</th><th>Cliente</th><th>Ações</th></tr></thead>
-    <tbody>
-      ${orders.map(o => `
-        <tr>
-          <td>${o.id}</td>
-          <td><a href='/orders/${o.id}'>${o.description}</a></td>
-          <td>${o.status}</td>
-          <td>${o.cost}</td>
-          <td>${o.Vehicle ? o.Vehicle.plate : "-"}</td>
-          <td>${o.Vehicle && o.Vehicle.Client ? o.Vehicle.Client.name : "-"}</td>
-          <td class='d-flex gap-2'>
-            <a class='btn btn-sm btn-warning' href='/orders/${o.id}/edit'>Editar</a>
-            <form method='post' action='/orders/${o.id}?_method=DELETE' onsubmit='return confirm("Excluir?")'>
-              <button class='btn btn-sm btn-danger'>Excluir</button>
-            </form>
-          </td>
-        </tr>
-      `).join("")}
-    </tbody>
-  </table>
-  ${pagination ? `<nav><ul class='pagination'>
-    ${Array.from({length: pagination.totalPages}, (_,i)=>{
-      const p=i+1; const active = p===pagination.page ? "active" : "";
-      return `<li class="page-item ${active}"><a class="page-link" href='?page=${p}'>${p}</a></li>`
-    }).join('')}
-  </ul></nav>` : ""}
+
+  <div class='card shadow-sm card-table mt-3'>
+    <div class='table-responsive'>
+      <table class='table table-hover mb-0'>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Descrição</th>
+            <th>Status</th>
+            <th>Custo</th>
+            <th>Veículo</th>
+            <th>Cliente</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${orders.map(o => `
+            <tr>
+              <td>${o.id}</td>
+              <td><a href='/orders/${o.id}'>${o.description}</a></td>
+              <td>${
+                { 
+                  aberta:"<span class='badge text-bg-secondary'>aberta</span>",
+                  em_andamento:"<span class='badge text-bg-warning'>em andamento</span>",
+                  concluida:"<span class='badge text-bg-success'>concluída</span>"
+                }[o.status] || o.status
+              }</td>
+              <td>${o.cost}</td>
+              <td>${o.Vehicle ? o.Vehicle.plate : "-"}</td>
+              <td>${o.Vehicle && o.Vehicle.Client ? o.Vehicle.Client.name : "-"}</td>
+              <td class='d-flex gap-2'>
+                <a class='btn btn-sm btn-outline-warning' href='/orders/${o.id}/edit'>
+                  <i class='bi bi-pencil-square me-1'></i>Editar
+                </a>
+                <form method='post' action='/orders/${o.id}?_method=DELETE' onsubmit='return confirm("Excluir?")'>
+                  <button class='btn btn-sm btn-outline-danger'>
+                    <i class='bi bi-trash me-1'></i>Excluir
+                  </button>
+                </form>
+              </td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  ${pagination ? `
+    <nav class='mt-3'>
+      <ul class='pagination'>
+        ${Array.from({length: pagination.totalPages}, (_,i)=>{
+          const p=i+1; const active = p===pagination.page ? "active" : "";
+          return `<li class="page-item ${active}"><a class="page-link" href='?page=${p}'>${p}</a></li>`;
+        }).join('')}
+      </ul>
+    </nav>
+  ` : ""}
 ` }) %>

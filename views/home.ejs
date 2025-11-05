@@ -1,8 +1,19 @@
 <%- include("layout", { body: `
-  <div class='d-flex gap-3'>
-    <a class='btn btn-secondary' href='/users'>Usuários</a>
-    <a class='btn btn-secondary' href='/clients'>Clientes</a>
-    <a class='btn btn-secondary' href='/vehicles'>Veículos</a>
-    <a class='btn btn-secondary' href='/orders'>Ordens de Serviço</a>
+  <div class='row g-4'>
+    <div class='col-12'>
+      <div class='p-4 bg-primary text-white rounded-4 shadow-sm d-flex align-items-center justify-content-between'>
+        <div>
+          <h2 class='mb-1'><i class='bi bi-tools me-2'></i>Bem-vindo à Oficina</h2>
+          <p class='mb-0'>Gerencie <b>Clientes</b>, <b>Veículos</b> e <b>Ordens de Serviço</b> de forma simples.</p>
+        </div>
+        <div class='d-none d-md-block'>
+          <i class='bi bi-wrench-adjustable fs-1 opacity-75'></i>
+        </div>
+      </div>
+    </div>
+    <div class='col-md-3'><a class='btn btn-outline-primary w-100 py-3 rounded-4' href='/clients'><i class='bi bi-people me-2'></i>Clientes</a></div>
+    <div class='col-md-3'><a class='btn btn-outline-primary w-100 py-3 rounded-4' href='/vehicles'><i class='bi bi-car-front me-2'></i>Veículos</a></div>
+    <div class='col-md-3'><a class='btn btn-outline-primary w-100 py-3 rounded-4' href='/orders'><i class='bi bi-receipt me-2'></i>Ordens</a></div>
+    <div class='col-md-3'><a class='btn btn-outline-secondary w-100 py-3 rounded-4' href='/users'><i class='bi bi-shield-lock me-2'></i>Usuários</a></div>
   </div>
 ` }) %>

@@ -1,16 +1,48 @@
 <%- include("../layout", { body: `
-  <h3>${vehicle.id ? "Editar" : "Novo"} Veículo</h3>
-  <form method='post' action='${action}'>
-    <div class='mb-3'><label>Placa</label><input name='plate' class='form-control' value='${vehicle.plate || ""}' required></div>
-    <div class='mb-3'><label>Modelo</label><input name='model' class='form-control' value='${vehicle.model || ""}' required></div>
-    <div class='mb-3'><label>Ano</label><input type='number' name='year' class='form-control' value='${vehicle.year || ""}'></div>
-    <div class='mb-3'>
-      <label>Cliente</label>
-      <select name='clientId' class='form-select' required>
-        ${ (clients || []).map(c => `<option value='${c.id}' ${vehicle.ClientId===c.id?"selected":""}>${c.name}</option>`).join("") }
-      </select>
+  <div class='d-flex justify-content-between align-items-center'>
+    <h3 class='mb-0'>
+      <i class='bi bi-car-front me-2'></i>${vehicle.id ? "Editar" : "Novo"} Veículo
+    </h3>
+    <a class='btn btn-outline-secondary' href='/vehicles'>
+      <i class='bi bi-arrow-left me-1'></i>Voltar
+    </a>
+  </div>
+
+  <div class='card shadow-sm rounded-4 mt-3'>
+    <div class='card-body'>
+      <form method='post' action='${action}' class='row g-3'>
+        <div class='col-md-3'>
+          <div class='form-floating'>
+            <input name='plate' class='form-control' value='${vehicle.plate || ""}' required>
+            <label><i class='bi bi-upc-scan me-1'></i>Placa</label>
+          </div>
+        </div>
+        <div class='col-md-5'>
+          <div class='form-floating'>
+            <input name='model' class='form-control' value='${vehicle.model || ""}' required>
+            <label><i class='bi bi-car-front me-1'></i>Modelo</label>
+          </div>
+        </div>
+        <div class='col-md-2'>
+          <div class='form-floating'>
+            <input type='number' name='year' class='form-control' value='${vehicle.year || ""}'>
+            <label><i class='bi bi-calendar3 me-1'></i>Ano</label>
+          </div>
+        </div>
+        <div class='col-md-2'>
+          <div class='form-floating'>
+            <select name='clientId' class='form-select' required>
+              ${(clients || []).map(c => `<option value='${c.id}' ${vehicle.ClientId===c.id?"selected":""}>${c.name}</option>`).join("")}
+            </select>
+            <label><i class='bi bi-person me-1'></i>Cliente</label>
+          </div>
+        </div>
+
+        <div class='col-12 d-flex gap-2 justify-content-end'>
+          <a class='btn btn-light' href='/vehicles'><i class='bi bi-x-lg me-1'></i>Cancelar</a>
+          <button class='btn btn-primary'><i class='bi bi-check2-circle me-1'></i>Salvar</button>
+        </div>
+      </form>
     </div>
-    <button class='btn btn-success'>Salvar</button>
-    <a class='btn btn-secondary' href='/vehicles'>Voltar</a>
-  </form>
+  </div>
 ` }) %>
