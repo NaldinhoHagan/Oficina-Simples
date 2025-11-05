@@ -1,0 +1,17 @@
+<%- include("../layout", { body: `
+  <h3>${user.id ? "Editar" : "Novo"} Usuário</h3>
+  <form method='post' action='${action}'>
+    <div class='mb-3'><label>Nome</label><input name='name' class='form-control' value='${user.name || ""}' required></div>
+    <div class='mb-3'><label>Email</label><input type='email' name='email' class='form-control' value='${user.email || ""}' required></div>
+    <div class='mb-3'><label>Senha ${user.id ? "(deixe em branco para manter)" : ""}</label><input type='password' name='password' class='form-control' ${user.id ? "" : "required"}></div>
+    <div class='mb-3'>
+      <label>Perfil</label>
+      <select name='role' class='form-select'>
+        <option value='user' ${user.role==="user"?"selected":""}>user</option>
+        <option value='admin' ${user.role==="admin"?"selected":""}>admin</option>
+      </select>
+    </div>
+    <button class='btn btn-success'>Salvar</button>
+    <a class='btn btn-secondary' href='/users'>Voltar</a>
+  </form>
+` }) %>

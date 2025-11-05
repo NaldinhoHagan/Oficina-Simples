@@ -1,0 +1,21 @@
+<%- include("../layout", { body: `
+  <h3>${order.id ? "Editar" : "Nova"} Ordem de Serviço</h3>
+  <form method='post' action='${action}'>
+    <div class='mb-3'><label>Descrição</label><textarea name='description' class='form-control' required>${order.description || ""}</textarea></div>
+    <div class='mb-3'>
+      <label>Status</label>
+      <select name='status' class='form-select'>
+        ${["aberta","em_andamento","concluida"].map(s => `<option value='${s}' ${order.status===s?"selected":""}>${s}</option>`).join("")}
+      </select>
+    </div>
+    <div class='mb-3'><label>Custo</label><input type='number' step='0.01' name='cost' class='form-control' value='${order.cost || 0}'></div>
+    <div class='mb-3'>
+      <label>Veículo</label>
+      <select name='vehicleId' class='form-select' required>
+        ${ (vehicles || []).map(v => `<option value='${v.id}' ${order.VehicleId===v.id?"selected":""}>${v.plate} - ${v.model} (${v.Client?.name || "-"})</option>`).join("") }
+      </select>
+    </div>
+    <button class='btn btn-success'>Salvar</button>
+    <a class='btn btn-secondary' href='/orders'>Voltar</a>
+  </form>
+` }) %>

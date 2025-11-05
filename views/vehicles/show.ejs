@@ -1,0 +1,10 @@
+<%- include("../layout", { body: `
+  <h3>Veículo #${vehicle.id}</h3>
+  <ul class='list-group'>
+    <li class='list-group-item'><b>Placa:</b> ${vehicle.plate}</li>
+    <li class='list-group-item'><b>Modelo:</b> ${vehicle.model}</li>
+    <li class='list-group-item'><b>Ano:</b> ${vehicle.year || "-"}</li>
+    <li class='list-group-item'><b>Cliente:</b> ${vehicle.Client ? vehicle.Client.name : "-"}</li>
+  </ul>
+  <a class='btn btn-secondary mt-3' href='/vehicles'>Voltar</a>
+` }) %>

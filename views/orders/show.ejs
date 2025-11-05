@@ -1,0 +1,11 @@
+<%- include("../layout", { body: `
+  <h3>OS #${order.id}</h3>
+  <ul class='list-group'>
+    <li class='list-group-item'><b>Descrição:</b> ${order.description}</li>
+    <li class='list-group-item'><b>Status:</b> ${order.status}</li>
+    <li class='list-group-item'><b>Custo:</b> R$ ${order.cost}</li>
+    <li class='list-group-item'><b>Veículo:</b> ${order.Vehicle ? order.Vehicle.plate + " - " + order.Vehicle.model : "-"}</li>
+    <li class='list-group-item'><b>Cliente:</b> ${order.Vehicle && order.Vehicle.Client ? order.Vehicle.Client.name : "-"}</li>
+  </ul>
+  <a class='btn btn-secondary mt-3' href='/orders'>Voltar</a>
+` }) %>

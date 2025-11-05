@@ -1,0 +1,16 @@
+<%- include("../layout", { body: `
+  <h3>${vehicle.id ? "Editar" : "Novo"} Veículo</h3>
+  <form method='post' action='${action}'>
+    <div class='mb-3'><label>Placa</label><input name='plate' class='form-control' value='${vehicle.plate || ""}' required></div>
+    <div class='mb-3'><label>Modelo</label><input name='model' class='form-control' value='${vehicle.model || ""}' required></div>
+    <div class='mb-3'><label>Ano</label><input type='number' name='year' class='form-control' value='${vehicle.year || ""}'></div>
+    <div class='mb-3'>
+      <label>Cliente</label>
+      <select name='clientId' class='form-select' required>
+        ${ (clients || []).map(c => `<option value='${c.id}' ${vehicle.ClientId===c.id?"selected":""}>${c.name}</option>`).join("") }
+      </select>
+    </div>
+    <button class='btn btn-success'>Salvar</button>
+    <a class='btn btn-secondary' href='/vehicles'>Voltar</a>
+  </form>
+` }) %>

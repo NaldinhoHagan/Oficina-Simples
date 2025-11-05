@@ -1,0 +1,9 @@
+<%- include("../layout", { body: `
+  <h3>Usuário #${user.id}</h3>
+  <ul class='list-group'>
+    <li class='list-group-item'><b>Nome:</b> ${user.name}</li>
+    <li class='list-group-item'><b>Email:</b> ${user.email}</li>
+    <li class='list-group-item'><b>Perfil:</b> ${user.role}</li>
+  </ul>
+  <a class='btn btn-secondary mt-3' href='/users'>Voltar</a>
+` }) %>
