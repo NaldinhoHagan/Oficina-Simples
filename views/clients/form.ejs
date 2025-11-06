@@ -6,19 +6,19 @@
       <div class="col-12 col-lg-10 col-xl-9">
         <div class="d-flex align-items-center mb-4">
           <i class="bi bi-people me-2 fs-4"></i>
-          <h1 class="h3 m-0 text-uppercase"><%= client.id ? "EDITAR" : "NOVO" %> CLIENTE</h1>
+          <h1 class="h3 m-0 text-uppercase"><%%= client.id ? "EDITAR" : "NOVO" %%> CLIENTE</h1>
         </div>
 
         <div class="card shadow-sm border-0">
           <div class="card-body p-4">
-            <form method="POST" action="<%= action %>" class="row g-4">
+            <form method="POST" action="<%%= action %%>" class="row g-4">
               
               <div class="col-12">
                 <label for="name" class="form-label fw-semibold">Nome</label>
                 <div class="input-group input-group-lg">
                   <span class="input-group-text"><i class="bi bi-person"></i></span>
                   <input type="text" id="name" name="name" class="form-control"
-                    placeholder="Nome completo" value="<%= client.name || '' %>" required>
+                    placeholder="Nome completo" value="<%%= client.name || '' %%>" required>
                 </div>
               </div>
 
@@ -27,34 +27,10 @@
                 <div class="input-group input-group-lg">
                   <span class="input-group-text"><i class="bi bi-telephone"></i></span>
                   <input type="text" id="phone" name="phone" class="form-control"
-                    placeholder="(00) 00000-0000" value="<%= client.phone || '' %>">
+                    placeholder="(00) 00000-0000" value="<%%= client.phone || '' %%>">
                 </div>
               </div>
 
               <div class="col-12 col-md-6">
                 <label for="email" class="form-label fw-semibold">Email</label>
-                <div class="input-group input-group-lg">
-                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                  <input type="email" id="email" name="email" class="form-control"
-                    placeholder="email@exemplo.com" value="<%= client.email || '' %>">
-                </div>
-              </div>
-
-              <div class="col-12 d-flex justify-content-between pt-2">
-                <a href="/clients" class="btn btn-outline-light btn-lg px-4">
-                  <i class="bi bi-x-lg me-2"></i>Cancelar
-                </a>
-                <button type="submit" class="btn btn-primary btn-lg px-4">
-                  <i class="bi bi-save me-2"></i>Salvar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <div class="text-muted small mt-3">Dados obrigatórios: Nome.</div>
-      </div>
-    </div>
-  </div>
-  `
-}) %>
+                <
