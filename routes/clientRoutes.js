@@ -6,6 +6,17 @@ import { ensureAuth } from "../middleware/auth.js";
 import { ensureAdmin } from "../middleware/ensureAdmin.js";
 import Client from "../models/Client.js";
 
+/ helper p/ renderizar um .ejs em string
+function renderViewToString(req, viewPath, locals = {}) {
+  const filePath = path.join(req.app.get("views"), viewPath); // respeita app.set('views')
+  return new Promise((resolve, reject) => {
+    ejs.renderFile(filePath, locals, (err, str) => {
+      if (err) return reject(err);
+      resolve(str);
+    });
+  });
+}
+
 const router = express.Router();
 router.use(ensureAuth);
 
@@ -36,11 +47,11 @@ router.get("/", async (req, res, next) => {
 });
 
 // NOVO (corrigido)
+// /clients/new
 router.get("/new", ensureAdmin, async (req, res, next) => {
   try {
-    const filePath = path.join(req.app.get("views"), "clients", "form.ejs");
-    const html = await ejs.renderFile(filePath, { client: {}, action: "/clients" });
-    res.render("layout", { body: html }); // o layout usa <%- body %>
+    const html = await renderViewToString(req, "clients/form.ejs", { client: {}, action: "/clients" });
+    res.render("layout", { body: html });
   } catch (err) { next(err); }
 });
 
@@ -56,13 +67,12 @@ router.post("/", ensureAdmin, async (req, res, next) => {
 });
 
 // EDITAR (corrigido)
+// /clients/:id/edit
 router.get("/:id/edit", ensureAdmin, async (req, res, next) => {
   try {
     const client = await Client.findByPk(req.params.id);
     if (!client) return res.status(404).send("Cliente não encontrado");
-
-    const filePath = path.join(req.app.get("views"), "clients", "form.ejs");
-    const html = await ejs.renderFile(filePath, { client, action: `/clients/${client.id}?_method=PUT` });
+    const html = await renderViewToString(req, "clients/form.ejs", { client, action: /clients/${client.id}?_method=PUT });
     res.render("layout", { body: html });
   } catch (err) { next(err); }
 });
