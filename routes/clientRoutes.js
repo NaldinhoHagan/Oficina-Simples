@@ -1,3 +1,5 @@
+import ejs from "ejs";
+import path from "path";
 import express from "express";
 import { Op } from "sequelize";
 import { ensureAuth } from "../middleware/auth.js";
@@ -34,15 +36,12 @@ router.get("/", async (req, res, next) => {
 });
 
 // NOVO (corrigido)
-router.get("/new", ensureAdmin, (req, res) => {
-  // Renderiza o layout e injeta o HTML do form já montado
-  res.render("layout", {
-    body: res.render(
-      "clients/form",
-      { client: {}, action: "/clients" },
-      (err, html) => html
-    ),
-  });
+router.get("/new", ensureAdmin, async (req, res, next) => {
+  try {
+    const filePath = path.join(req.app.get("views"), "clients", "form.ejs");
+    const html = await ejs.renderFile(filePath, { client: {}, action: "/clients" });
+    res.render("layout", { body: html }); // o layout usa <%- body %>
+  } catch (err) { next(err); }
 });
 
 // CRIAR
@@ -62,16 +61,10 @@ router.get("/:id/edit", ensureAdmin, async (req, res, next) => {
     const client = await Client.findByPk(req.params.id);
     if (!client) return res.status(404).send("Cliente não encontrado");
 
-    res.render("layout", {
-      body: res.render(
-        "clients/form",
-        { client, action: `/clients/${client.id}?_method=PUT` },
-        (err, html) => html
-      ),
-    });
-  } catch (err) {
-    next(err);
-  }
+    const filePath = path.join(req.app.get("views"), "clients", "form.ejs");
+    const html = await ejs.renderFile(filePath, { client, action: `/clients/${client.id}?_method=PUT` });
+    res.render("layout", { body: html });
+  } catch (err) { next(err); }
 });
 
 // ATUALIZAR
