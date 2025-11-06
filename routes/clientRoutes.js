@@ -6,7 +6,6 @@ import { ensureAuth } from "../middleware/auth.js";
 import { ensureAdmin } from "../middleware/ensureAdmin.js";
 import Client from "../models/Client.js";
 
-/ helper p/ renderizar um .ejs em string
 function renderViewToString(req, viewPath, locals = {}) {
   const filePath = path.join(req.app.get("views"), viewPath); // respeita app.set('views')
   return new Promise((resolve, reject) => {
