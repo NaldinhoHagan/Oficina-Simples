@@ -33,4 +33,28 @@
 
               <div class="col-12 col-md-6">
                 <label for="email" class="form-label fw-semibold">Email</label>
-                <
+                <div class="input-group input-group-lg">
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                  <input type="email" id="email" name="email" class="form-control"
+                    placeholder="email@exemplo.com" value="<%%= client.email || '' %%>">
+                </div>
+              </div>
+
+              <div class="col-12 d-flex justify-content-between pt-2">
+                <a href="/clients" class="btn btn-outline-light btn-lg px-4">
+                  <i class="bi bi-x-lg me-2"></i>Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary btn-lg px-4">
+                  <i class="bi bi-save me-2"></i>Salvar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="text-muted small mt-3">Dados obrigatórios: Nome.</div>
+      </div>
+    </div>
+  </div>
+  `
+}) %>
