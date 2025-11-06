@@ -1,5 +1,5 @@
 import express from "express";
-import { Op } from "sequelize"; // ✅ usar Op correto
+import { Op } from "sequelize";
 import { ensureAuth } from "../middleware/auth.js";
 import { ensureAdmin } from "../middleware/ensureAdmin.js";
 import Client from "../models/Client.js";
@@ -11,7 +11,7 @@ router.use(ensureAuth);
 router.get("/", async (req, res, next) => {
   try {
     const q = req.query.q?.trim();
-    const where = q ? { name: { [Op.iLike]: `%${q}%` } } : undefined; // ✅ Op.iLike
+    const where = q ? { name: { [Op.iLike]: `%${q}%` } } : undefined;
     const page = Math.max(parseInt(req.query.page || "1", 10), 1);
     const limit = 10;
     const offset = (page - 1) * limit;
@@ -25,7 +25,7 @@ router.get("/", async (req, res, next) => {
 
     res.render("clients/list", {
       clients,
-      q, // ✅ para o input de busca no list.ejs
+      q,
       pagination: { page, totalPages: Math.max(Math.ceil(count / limit), 1) },
     });
   } catch (err) {
@@ -33,9 +33,16 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// NOVO
+// NOVO (corrigido)
 router.get("/new", ensureAdmin, (req, res) => {
-  res.render("clients/form", { client: {}, action: "/clients" });
+  // Renderiza o layout e injeta o HTML do form já montado
+  res.render("layout", {
+    body: res.render(
+      "clients/form",
+      { client: {}, action: "/clients" },
+      (err, html) => html
+    ),
+  });
 });
 
 // CRIAR
@@ -49,14 +56,18 @@ router.post("/", ensureAdmin, async (req, res, next) => {
   }
 });
 
-// EDITAR (form)
+// EDITAR (corrigido)
 router.get("/:id/edit", ensureAdmin, async (req, res, next) => {
   try {
     const client = await Client.findByPk(req.params.id);
     if (!client) return res.status(404).send("Cliente não encontrado");
-    res.render("clients/form", {
-      client,
-      action: `/clients/${client.id}?_method=PUT`,
+
+    res.render("layout", {
+      body: res.render(
+        "clients/form",
+        { client, action: `/clients/${client.id}?_method=PUT` },
+        (err, html) => html
+      ),
     });
   } catch (err) {
     next(err);
