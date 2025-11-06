@@ -63,10 +63,29 @@ router.get("/new", ensureAdmin, async (req, res, next) => {
 router.post("/", ensureAdmin, async (req, res, next) => {
   try {
     const { name, phone, email } = req.body;
+    console.log("POST /clients ->", { name, phone, email }); // DEBUG: veja no Render
+
     await Client.create({ name, phone, email });
-    res.redirect("/clients");
+    return res.redirect("/clients");
   } catch (err) {
-    next(err);
+    console.error("Erro ao criar cliente:", err?.name, err?.message); // DEBUG
+
+    // Re-renderiza o form com os dados preenchidos e a mensagem de erro
+    try {
+      const html = await renderViewToString("clients/form.ejs", {
+        client: {
+          id: null,
+          name: req.body?.name || "",
+          phone: req.body?.phone || "",
+          email: req.body?.email || "",
+        },
+        action: "/clients",
+        error: err?.errors?.[0]?.message || err?.message || "Falha ao salvar",
+      });
+      return res.status(400).render("layout", { body: html });
+    } catch (renderErr) {
+      return res.status(400).send(err?.message || "Falha ao salvar");
+    }
   }
 });
 
