@@ -46,12 +46,14 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// NOVO (corrigido)
 // /clients/new
 router.get("/new", ensureAdmin, async (req, res, next) => {
   try {
-    const html = await renderViewToString(req, "clients/form.ejs", { client: {}, action: "/clients" });
-    res.render("layout", { body: html });
+    const html = await renderViewToString("clients/form.ejs", {
+      client: {},
+      action: "/clients",
+    });
+    res.render("layout", { body: html }); // seu layout tem <%- body %>
   } catch (err) { next(err); }
 });
 
@@ -72,7 +74,11 @@ router.get("/:id/edit", ensureAdmin, async (req, res, next) => {
   try {
     const client = await Client.findByPk(req.params.id);
     if (!client) return res.status(404).send("Cliente não encontrado");
-    const html = await renderViewToString(req, "clients/form.ejs", { client, action: /clients/${client.id}?_method=PUT });
+
+    const html = await renderViewToString("clients/form.ejs", {
+      client,
+      action: /clients/${client.id}?_method=PUT,
+    });
     res.render("layout", { body: html });
   } catch (err) { next(err); }
 });
