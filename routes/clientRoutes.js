@@ -76,7 +76,7 @@ router.get("/:id/edit", ensureAdmin, async (req, res, next) => {
 
     const html = await renderViewToString("clients/form.ejs", {
       client,
-      action: /clients/${client.id}?_method=PUT,
+      action: /clients/${client.id}?_method=PUT, // <-- crase aqui
     });
     res.render("layout", { body: html });
   } catch (err) { next(err); }
