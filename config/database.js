@@ -1,16 +1,19 @@
 import { Sequelize } from "sequelize";
 
-const {
-  DATABASE_URL, PGHOST, PGUSER, PGPASSWORD, PGDATABASE, PGPORT
-} = process.env;
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL não está definida no ambiente");
+}
 
-const sequelize = DATABASE_URL
-  ? new Sequelize(DATABASE_URL, { dialect: "postgres", protocol: "postgres", logging: false })
-  : new Sequelize(PGDATABASE, PGUSER, PGPASSWORD, {
-      host: PGHOST || "localhost",
-      port: PGPORT || 5432,
-      dialect: "postgres",
-      logging: false
-    });
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: "postgres",
+  protocol: "postgres",
+  logging: false,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
+});
 
 export default sequelize;
