@@ -1,10 +1,9 @@
+delete process.env.PGHOST;
+delete process.env.PGUSER;
+delete process.env.PGPASSWORD;
+delete process.env.PGDATABASE;
+delete process.env.PGPORT;
 import { Sequelize } from "sequelize";
-
-console.log("USANDO DATABASE_URL:", process.env.DATABASE_URL);
-
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL não está definida");
-}
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: "postgres",
@@ -16,6 +15,8 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
       rejectUnauthorized: false,
     },
   },
+  // 🔥 ISSO AQUI É A CHAVE
+  host: undefined,
 });
 
 export default sequelize;
